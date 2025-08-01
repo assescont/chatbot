@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Modern n8n Chatbot</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/@n8n/chat@0.50.0/dist/style.css"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --chat-bg-color: #ffffff; /* White background */
+        --chat-text-color: #333333; /* Dark text for contrast */
+        --chat-button-bg: #ff6200; /* Orange button background */
+        --chat-button-hover-bg: #e55a00; /* Darker orange on hover */
+        --chat-message-user-bg: #ff6200; /* Orange for user messages */
+        --chat-message-bot-bg: #f0f0f0; /* Light gray for bot messages */
+        --chat-border-color: #ff6200; /* Orange borders */
+      }
+
+      html,
+      body,
+      #n8n-chat {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        font-family: "Arial", sans-serif;
+        background-color: var(--chat-bg-color);
+      }
+
+      #n8n-chat {
+        width: 100%;
+        height: 100%;
+      }
+
+      .n8n-chat-container {
+        width: 100%;
+        height: 100%;
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
+        overflow: hidden;
+        background-color: var(--chat-bg-color);
+      }
+
+      .n8n-chat-header {
+        background-color: var(--chat-button-bg);
+        color: #ffffff;
+        padding: 10px;
+        text-align: center;
+        font-size: 18px;
+        font-weight: bold;
+      }
+
+      .n8n-chat-message-user {
+        background-color: var(--chat-message-user-bg) !important;
+        color: #ffffff !important;
+        border-radius: 10px 10px 0 10px !important;
+        margin: 5px 10px !important;
+      }
+
+      .n8n-chat-message-bot {
+        background-color: var(--chat-message-bot-bg) !important;
+        color: var(--chat-text-color) !important;
+        border-radius: 10px 10px 10px 0 !important;
+        margin: 5px 10px !important;
+      }
+
+      .n8n-chat-input {
+        border-top: 1px solid var(--chat-border-color) !important;
+      }
+
+      .n8n-chat-input input {
+        background-color: #ffffff !important;
+        color: var(--chat-text-color) !important;
+        border: none !important;
+        padding: 10px !important;
+      }
+
+      .n8n-chat-button {
+        background-color: var(--chat-button-bg) !important;
+        color: #ffffff !important;
+        border-radius: 50% !important;
+        padding: 10px !important;
+        transition: background-color 0.2s !important;
+      }
+
+      .n8n-chat-button:hover {
+        background-color: var(--chat-button-hover-bg) !important;
+      }
+
+      .n8n-chat-toggle-button {
+        background-color: var(--chat-button-bg) !important;
+        border-radius: 50% !important;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="n8n-chat"></div>
+    <script type="module">
+      import { createChat } from "https://cdn.jsdelivr.net/npm/@n8n/chat@0.50.0/dist/chat.bundle.es.js";
+      createChat({
+        webhookUrl:
+          "https://n8n.srv934741.hstgr.cloud/webhook/9c3ff848-cbf4-4846-9289-0a0b8381c121/chat",
+        target: "#n8n-chat",
+        mode: "window",
+        showWelcomeScreen: true,
+        streaming: true,
+      });
+    </script>
+  </body>
+</html>
