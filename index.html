@@ -1,120 +1,460 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Modern n8n Chatbot</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/@n8n/chat@0.50.0/dist/style.css"
-      rel="stylesheet"
-    />
+    <title>ContIA</title>
     <style>
-      :root {
-        --chat-bg-color: #ffffff; /* White background */
-        --chat-text-color: #333333; /* Dark text for contrast */
-        --chat-button-bg: #ff6200; /* Orange button background */
-        --chat-button-hover-bg: #e55a00; /* Darker orange on hover */
-        --chat-message-user-bg: #ff6200; /* Orange for user messages */
-        --chat-message-bot-bg: #f0f0f0; /* Light gray for bot messages */
-        --chat-border-color: #ff6200; /* Orange borders */
-      }
-
-      html,
-      body,
-      #n8n-chat {
-        width: 100%;
-        height: 100%;
+      * {
         margin: 0;
         padding: 0;
-        font-family: "Arial", sans-serif;
-        background-color: var(--chat-bg-color);
+        box-sizing: border-box;
       }
 
-      #n8n-chat {
-        width: 100%;
-        height: 100%;
-      }
-
-      .n8n-chat-container {
-        width: 100%;
-        height: 100%;
-        border: none;
-        border-radius: 0;
-        box-shadow: none;
-        overflow: hidden;
-        background-color: var(--chat-bg-color);
-      }
-
-      .n8n-chat-header {
-        background-color: var(--chat-button-bg);
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          sans-serif;
+        background-color: #1a1a1a;
         color: #ffffff;
-        padding: 10px;
-        text-align: center;
-        font-size: 18px;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .container {
+        width: 100%;
+        max-width: 600px;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 40px;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 32px;
         font-weight: bold;
       }
 
-      .n8n-chat-message-user {
-        background-color: var(--chat-message-user-bg) !important;
-        color: #ffffff !important;
-        border-radius: 10px 10px 0 10px !important;
-        margin: 5px 10px !important;
-      }
-
-      .n8n-chat-message-bot {
-        background-color: var(--chat-message-bot-bg) !important;
-        color: var(--chat-text-color) !important;
-        border-radius: 10px 10px 10px 0 !important;
-        margin: 5px 10px !important;
-      }
-
-      .n8n-chat-input {
-        border-top: 1px solid var(--chat-border-color) !important;
-      }
-
-      .n8n-chat-input input {
-        background-color: #ffffff !important;
-        color: var(--chat-text-color) !important;
-        border: none !important;
-        padding: 10px !important;
-      }
-
-      .n8n-chat-button {
-        background-color: var(--chat-button-bg) !important;
-        color: #ffffff !important;
-        border-radius: 50% !important;
-        padding: 10px !important;
-        transition: background-color 0.2s !important;
-      }
-
-      .n8n-chat-button:hover {
-        background-color: var(--chat-button-hover-bg) !important;
-      }
-
-      .n8n-chat-toggle-button {
-        background-color: var(--chat-button-bg) !important;
-        border-radius: 50% !important;
-        width: 50px;
-        height: 50px;
+      .logo-icon {
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%);
+        border-radius: 50%;
         display: flex;
-        justify-content: center;
         align-items: center;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        justify-content: center;
+        position: relative;
+      }
+
+      .logo-icon::before {
+        content: "";
+        width: 20px;
+        height: 20px;
+        border: 3px solid #1a1a1a;
+        border-radius: 50%;
+        border-top-color: transparent;
+        border-right-color: transparent;
+        transform: rotate(-45deg);
+      }
+
+      .logo-icon::after {
+        content: "";
+        position: absolute;
+        width: 8px;
+        height: 8px;
+        background: #1a1a1a;
+        border-radius: 50%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      .chat-container {
+        width: 100%;
+        height: 400px;
+        background-color: #2a2a2a;
+        border-radius: 16px;
+        padding: 20px;
+        overflow-y: auto;
+        margin-bottom: 20px;
+      }
+
+      .message {
+        margin-bottom: 15px;
+        padding: 12px 16px;
+        border-radius: 12px;
+        max-width: 80%;
+        word-wrap: break-word;
+      }
+
+      .user-message {
+        background-color: #4a90e2;
+        color: #ffffff;
+        margin-left: auto;
+        text-align: right;
+      }
+
+      .bot-message {
+        background-color: #3a3a3a;
+        color: #ffffff;
+        margin-right: auto;
+      }
+
+      .input-container {
+        width: 100%;
+        position: relative;
+      }
+
+      .main-input {
+        width: 100%;
+        min-height: 60px;
+        max-height: 200px;
+        background-color: #2a2a2a;
+        border: none;
+        border-radius: 16px;
+        padding: 20px 90px 20px 60px;
+        color: #ffffff;
+        font-size: 16px;
+        outline: none;
+        position: relative;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        resize: none;
+        font-family: inherit;
+        line-height: 1.4;
+        overflow-y: auto;
+      }
+
+      .main-input::placeholder {
+        color: #888888;
+      }
+
+      .input-left-controls {
+        position: absolute;
+        left: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .mic-button {
+        width: 32px;
+        height: 32px;
+        background-color: #3a3a3a;
+        border: none;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: #ffffff;
+      }
+
+      .mic-button::before {
+        content: "🎤";
+        font-size: 14px;
+      }
+
+      .fast-dropdown {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: #888888;
+        font-size: 14px;
+        cursor: pointer;
+      }
+
+      .fast-dropdown::before {
+        content: "⚡";
+        font-size: 12px;
+      }
+
+      .fast-dropdown::after {
+        content: "▼";
+        font-size: 10px;
+      }
+
+      .input-right-controls {
+        position: absolute;
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+
+      .waveform-icon {
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #888888;
+      }
+
+      .waveform-icon::before {
+        content: "📊";
+        font-size: 16px;
+      }
+
+
+      .send-button {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        height: 45px;
+        width: 45px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 2px;
+        border-radius: 50%;
+        border: 1px solid transparent;
+        border-style: inset;
+        transition: all 100ms;
+        background-color: #FCFCFC;
+        color: #111113;
+        cursor: pointer;
+        font-size: 16px;
+        overflow: hidden;
+        z-index: 10;
+      }
+
+      .send-button.visible {
+        display: block;
+      }
+
+      .bottom-buttons {
+        display: flex;
+        gap: 15px;
+        width: 100%;
+        justify-content: center;
+      }
+
+      .bottom-button {
+        background-color: #2a2a2a;
+        border: none;
+        border-radius: 12px;
+        padding: 12px 20px;
+        color: #ffffff;
+        font-size: 14px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: background-color 0.2s;
+      }
+
+      .bottom-button:hover {
+        background-color: #3a3a3a;
+      }
+
+      .bottom-button::before {
+        font-size: 16px;
+      }
+
+      .edit-image::before {
+        content: "📷";
+      }
+
+      .latest-news::before {
+        content: "📰";
+      }
+
+      .personalities::before {
+        content: "👤";
+      }
+
+      .personalities::after {
+        content: "▼";
+        font-size: 10px;
+        margin-left: 4px;
+      }
+
+      .loading {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border: 3px solid #ffffff;
+        border-radius: 50%;
+        border-top-color: transparent;
+        animation: spin 1s ease-in-out infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
       }
     </style>
   </head>
   <body>
-    <div id="n8n-chat"></div>
-    <script type="module">
-      import { createChat } from "https://cdn.jsdelivr.net/npm/@n8n/chat@0.50.0/dist/chat.bundle.es.js";
-      createChat({
-        webhookUrl:
-          "https://n8n.srv934741.hstgr.cloud/webhook/9c3ff848-cbf4-4846-9289-0a0b8381c121/chat",
-        target: "#n8n-chat",
-        mode: "window",
-        showWelcomeScreen: true,
-        streaming: true,
+    <div class="container">
+      <div class="logo">
+        ContIA
+      </div>
+
+      <div class="chat-container" id="chatContainer">
+        <div class="message bot-message">
+          Olá! Como posso ajudar você hoje? 👋
+        </div>
+      </div>
+
+      <div class="input-container">
+        <textarea
+          class="main-input"
+          placeholder="O que você quer saber?"
+          id="messageInput"
+          rows="1"
+          resize="none"
+        ></textarea>
+
+        <button class="send-button" id="sendButton">➤</button>
+      </div>
+
+      <!-- <div class="bottom-buttons">
+        <button class="bottom-button edit-image">Editar imagem</button>
+        <button class="bottom-button latest-news">
+          Notícias mais recentes
+        </button>
+        <button class="bottom-button personalities">Personalidades</button>
+      </div>
+    </div> -->
+
+    <script>
+      const messageInput = document.getElementById("messageInput");
+      const sendButton = document.getElementById("sendButton");
+      const chatContainer = document.getElementById("chatContainer");
+      const webhookUrl =
+        "https://n8n.srv934741.hstgr.cloud/webhook/9c3ff848-cbf4-4846-9289-0a0b8381c121/chat";
+
+      // Função para ajustar altura do textarea
+      function adjustTextareaHeight() {
+        messageInput.style.height = 'auto';
+        messageInput.style.height = Math.min(messageInput.scrollHeight, 200) + 'px';
+      }
+
+      // Mostrar/ocultar botão de enviar baseado no conteúdo do input
+      messageInput.addEventListener("input", function () {
+        adjustTextareaHeight();
+        if (this.value.trim()) {
+          sendButton.classList.add("visible");
+        } else {
+          sendButton.classList.remove("visible");
+        }
       });
+
+      // Função para adicionar mensagem ao chat
+      function addMessage(text, isUser = false) {
+        const messageDiv = document.createElement("div");
+        messageDiv.className = `message ${
+          isUser ? "user-message" : "bot-message"
+        }`;
+        messageDiv.textContent = text;
+        chatContainer.appendChild(messageDiv);
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+      }
+
+      // Função para enviar mensagem para o webhook
+      async function sendMessage(message) {
+        try {
+          const response = await fetch(webhookUrl, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              message: message,
+            }),
+          });
+
+          if (response.ok) {
+            console.log("Response OK - Status:", response.status);
+            
+            let data;
+            try {
+              data = await response.json();
+              console.log("Resposta completa do n8n:", data);
+            } catch (jsonError) {
+              console.error("Erro ao fazer parse do JSON:", jsonError);
+              const textResponse = await response.text();
+              console.log("Resposta como texto:", textResponse);
+              return "Erro no formato da resposta do servidor";
+            }
+            
+            console.log("Status da resposta:", response.status);
+            console.log("Headers da resposta:", response.headers);
+            
+            // Tenta diferentes campos possíveis da resposta
+            const responseText = data.output || 
+                               data.response || 
+                               data.message || 
+                               data.text || 
+                               data.content || 
+                               data.answer ||
+                               "Obrigado pela sua mensagem!";
+            
+            console.log("Texto extraído:", responseText);
+            return responseText;
+          } else {
+            console.error("Erro HTTP:", response.status, response.statusText);
+            console.error("Response headers:", response.headers);
+            const errorText = await response.text();
+            console.error("Response body:", errorText);
+            throw new Error(`Erro na resposta do servidor: ${response.status}`);
+          }
+        } catch (error) {
+          console.error("Erro ao enviar mensagem:", error);
+          return "Desculpe, ocorreu um erro ao processar sua mensagem.";
+        }
+      }
+
+      // Função para enviar mensagem
+      async function handleSendMessage() {
+        const message = messageInput.value.trim();
+        if (!message) return;
+
+        // Adicionar mensagem do usuário
+        addMessage(message, true);
+        messageInput.value = "";
+        sendButton.classList.remove("visible");
+
+        // Mostrar loading
+        const loadingDiv = document.createElement("div");
+        loadingDiv.className = "message bot-message";
+        loadingDiv.innerHTML = '<span class="loading"></span> Processando...';
+        chatContainer.appendChild(loadingDiv);
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+
+        // Enviar para o webhook
+        const response = await sendMessage(message);
+
+        // Remover loading
+        chatContainer.removeChild(loadingDiv);
+
+        // Adicionar resposta do bot
+        addMessage(response);
+      }
+
+      // Event listeners
+      sendButton.addEventListener("click", handleSendMessage);
+
+      messageInput.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" && !e.shiftKey) {
+          e.preventDefault();
+          handleSendMessage();
+        }
+      });
+
+      // Focar no input ao carregar a página
+      messageInput.focus();
     </script>
   </body>
 </html>
