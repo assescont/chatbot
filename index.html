@@ -19,31 +19,28 @@
         height: 100vh;
         display: flex;
         flex-direction: column;
-        align-items: center;
-        justify-content: center;
       }
 
-      .container {
-        width: 100%;
-        max-width: 600px;
+      .header {
+        background-color: #2a2a2a;
         padding: 20px;
+        border-bottom: 1px solid #3a3a3a;
         display: flex;
-        flex-direction: column;
         align-items: center;
-        gap: 40px;
+        gap: 12px;
       }
 
       .logo {
         display: flex;
         align-items: center;
         gap: 12px;
-        font-size: 32px;
+        font-size: 24px;
         font-weight: bold;
       }
 
       .logo-icon {
-        width: 40px;
-        height: 40px;
+        width: 32px;
+        height: 32px;
         background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%);
         border-radius: 50%;
         display: flex;
@@ -54,9 +51,9 @@
 
       .logo-icon::before {
         content: "";
-        width: 20px;
-        height: 20px;
-        border: 3px solid #1a1a1a;
+        width: 16px;
+        height: 16px;
+        border: 2px solid #1a1a1a;
         border-radius: 50%;
         border-top-color: transparent;
         border-right-color: transparent;
@@ -66,8 +63,8 @@
       .logo-icon::after {
         content: "";
         position: absolute;
-        width: 8px;
-        height: 8px;
+        width: 6px;
+        height: 6px;
         background: #1a1a1a;
         border-radius: 50%;
         top: 50%;
@@ -76,13 +73,12 @@
       }
 
       .chat-container {
-        width: 100%;
-        height: 400px;
-        background-color: #2a2a2a;
-        border-radius: 16px;
-        padding: 20px;
+        flex: 1;
+        background-color: #1a1a1a;
+        padding: 5%;
         overflow-y: auto;
-        margin-bottom: 20px;
+        display: flex;
+        flex-direction: column;
       }
 
       .message {
@@ -106,16 +102,24 @@
         margin-right: auto;
       }
 
+      .input-section {
+        background-color: #2a2a2a;
+        padding: 20px;
+        border-top: 1px solid #3a3a3a;
+      }
+
       .input-container {
         width: 100%;
         position: relative;
+        max-width: 800px;
+        margin: 0 auto;
       }
 
       .main-input {
         width: 100%;
         min-height: 60px;
         max-height: 200px;
-        background-color: #2a2a2a;
+        background-color: #3a3a3a;
         border: none;
         border-radius: 16px;
         padding: 20px 90px 20px 60px;
@@ -148,7 +152,7 @@
       .mic-button {
         width: 32px;
         height: 32px;
-        background-color: #3a3a3a;
+        background-color: #4a4a4a;
         border: none;
         border-radius: 50%;
         display: flex;
@@ -203,7 +207,6 @@
         font-size: 16px;
       }
 
-
       .send-button {
         position: absolute;
         right: 15px;
@@ -219,7 +222,7 @@
         border: 1px solid transparent;
         border-style: inset;
         transition: all 100ms;
-        background-color: #FCFCFC;
+        background-color: #fcfcfc;
         color: #111113;
         cursor: pointer;
         font-size: 16px;
@@ -228,54 +231,7 @@
       }
 
       .send-button.visible {
-        display: block;
-      }
-
-      .bottom-buttons {
         display: flex;
-        gap: 15px;
-        width: 100%;
-        justify-content: center;
-      }
-
-      .bottom-button {
-        background-color: #2a2a2a;
-        border: none;
-        border-radius: 12px;
-        padding: 12px 20px;
-        color: #ffffff;
-        font-size: 14px;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        transition: background-color 0.2s;
-      }
-
-      .bottom-button:hover {
-        background-color: #3a3a3a;
-      }
-
-      .bottom-button::before {
-        font-size: 16px;
-      }
-
-      .edit-image::before {
-        content: "📷";
-      }
-
-      .latest-news::before {
-        content: "📰";
-      }
-
-      .personalities::before {
-        content: "👤";
-      }
-
-      .personalities::after {
-        content: "▼";
-        font-size: 10px;
-        margin-left: 4px;
       }
 
       .loading {
@@ -296,17 +252,17 @@
     </style>
   </head>
   <body>
-    <div class="container">
-      <div class="logo">
-        ContIA
-      </div>
+    <div class="header">
+      <div class="logo">ContIA</div>
+    </div>
 
-      <div class="chat-container" id="chatContainer">
-        <div class="message bot-message">
-          Olá! Como posso ajudar você hoje? 👋
-        </div>
+    <div class="chat-container" id="chatContainer">
+      <div class="message bot-message">
+        Olá! Como posso ajudar você hoje? 👋
       </div>
+    </div>
 
+    <div class="input-section">
       <div class="input-container">
         <textarea
           class="main-input"
@@ -318,15 +274,7 @@
 
         <button class="send-button" id="sendButton">➤</button>
       </div>
-
-      <!-- <div class="bottom-buttons">
-        <button class="bottom-button edit-image">Editar imagem</button>
-        <button class="bottom-button latest-news">
-          Notícias mais recentes
-        </button>
-        <button class="bottom-button personalities">Personalidades</button>
-      </div>
-    </div> -->
+    </div>
 
     <script>
       const messageInput = document.getElementById("messageInput");
@@ -337,8 +285,9 @@
 
       // Função para ajustar altura do textarea
       function adjustTextareaHeight() {
-        messageInput.style.height = 'auto';
-        messageInput.style.height = Math.min(messageInput.scrollHeight, 200) + 'px';
+        messageInput.style.height = "auto";
+        messageInput.style.height =
+          Math.min(messageInput.scrollHeight, 200) + "px";
       }
 
       // Mostrar/ocultar botão de enviar baseado no conteúdo do input
@@ -377,7 +326,7 @@
 
           if (response.ok) {
             console.log("Response OK - Status:", response.status);
-            
+
             let data;
             try {
               data = await response.json();
@@ -388,19 +337,20 @@
               console.log("Resposta como texto:", textResponse);
               return "Erro no formato da resposta do servidor";
             }
-            
+
             console.log("Status da resposta:", response.status);
             console.log("Headers da resposta:", response.headers);
-            
+
             // Tenta diferentes campos possíveis da resposta
-            const responseText = data.output || 
-                               data.response || 
-                               data.message || 
-                               data.text || 
-                               data.content || 
-                               data.answer ||
-                               "Obrigado pela sua mensagem!";
-            
+            const responseText =
+              data.output ||
+              data.response ||
+              data.message ||
+              data.text ||
+              data.content ||
+              data.answer ||
+              "Obrigado pela sua mensagem!";
+
             console.log("Texto extraído:", responseText);
             return responseText;
           } else {
